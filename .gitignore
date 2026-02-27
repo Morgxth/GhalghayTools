@@ -35,3 +35,15 @@ Thumbs.db
 logs/
 
 # Railway / Fly.io не нужны в .gitignore — их файлы (railway.toml, fly.toml) коммитим
+
+# Исходные материалы — PDF, сканы, корпус (авторские права третьих лиц)
+# Файлы остаются локально, но не попадают в git
+**/materials/*.pdf
+**/materials/*.PDF
+**/materials/*.html
+**/materials/corpus_downloads/
+# OCR/debug изображения из PDF
+**/materials/page*.png
+**/materials/tmp_*.png
+**/materials/_debug*
+**/materials/_page_dump*
