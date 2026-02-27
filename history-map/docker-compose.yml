@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ingush_history_db
+    environment:
+      POSTGRES_DB: ingush_history
+      POSTGRES_USER: ingush_user
+      POSTGRES_PASSWORD: ingush_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ingush_user -d ingush_history"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:

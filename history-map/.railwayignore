@@ -1,0 +1,17 @@
+# Large local files not needed for build
+materials/
+doklad_text.txt
+*.pdf
+frontend/node_modules/
+backend/.gradle/
+backend/build/
+backend/out/
+.idea/
+*.iml
+.vscode/
+.DS_Store
+Thumbs.db
+*.env
+.env*
+.claude/
+PLAN.md

@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Карта Памяти — История Ингушетии</title>
+    <meta name="description" content="Интерактивная карта исторических земель, событий и топонимов Ингушетии" />
+
+    <!-- PWA / мобильные -->
+    <meta name="theme-color" content="#0d0b09" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Jost:wght@300;400;500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="КартаПамяти" />
+
+    <!-- Telegram Mini App SDK — должен быть загружен ДО приложения -->
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
+    <!-- Иконки -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="apple-touch-icon" href="/icon-192.png" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Карта Памяти — История Ингушетии" />
+    <meta property="og:description" content="Интерактивная карта исторических земель и событий Ингушетии" />
+    <meta property="og:image" content="/icon-512.png" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

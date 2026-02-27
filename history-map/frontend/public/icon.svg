@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Фон -->
+  <rect width="512" height="512" rx="96" fill="#161b27"/>
+  <!-- Горы (силуэт) -->
+  <polygon points="80,380 180,200 240,300 300,180 380,280 440,380" fill="none" stroke="#c9935a" stroke-width="10" stroke-linejoin="round"/>
+  <!-- Пики снега -->
+  <polygon points="180,200 160,240 200,240" fill="#c9935a" opacity="0.7"/>
+  <polygon points="300,180 280,222 320,222" fill="#c9935a" opacity="0.7"/>
+  <!-- Река (горизонтальная линия внизу) -->
+  <path d="M 60 410 Q 170 395 256 410 Q 340 425 452 410" fill="none" stroke="#7ea8c9" stroke-width="5" stroke-linecap="round"/>
+  <!-- Точка-маркер (карта) -->
+  <circle cx="256" cy="290" r="18" fill="#c9935a"/>
+  <circle cx="256" cy="290" r="10" fill="#161b27"/>
+  <!-- Год (нижний текст) -->
+  <text x="256" y="470" text-anchor="middle" font-family="serif" font-size="42" fill="#c9935a" letter-spacing="4">ИНГУШЕТИЯ</text>
+</svg>

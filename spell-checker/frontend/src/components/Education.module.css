@@ -1,0 +1,88 @@
+.root {
+  margin-top: 1.5rem;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-left: 3px solid #6366f1;
+  border-radius: 10px;
+  padding: 1.25rem 1.4rem;
+  margin-bottom: 2rem;
+}
+
+.bannerIcon {
+  font-size: 1.5rem;
+  color: #6366f1;
+  line-height: 1;
+  margin-top: 0.1rem;
+  flex-shrink: 0;
+}
+
+.bannerTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #a5b4fc;
+  margin-bottom: 0.3rem;
+}
+
+.bannerText {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.6;
+}
+
+.sectionTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #475569;
+  margin-bottom: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.item {
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 10px;
+  padding: 1rem 1.25rem;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.4rem;
+}
+
+.itemTitle {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #e2e8f0;
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 500;
+  padding: 0.15rem 0.55rem;
+  background: #1e293b;
+  color: #64748b;
+  border-radius: 20px;
+  letter-spacing: 0.03em;
+}
+
+.itemDesc {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin: 0;
+}

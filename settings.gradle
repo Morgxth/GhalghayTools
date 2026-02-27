@@ -1,0 +1,4 @@
+rootProject.name = 'ghalghay-tools'
+
+include ':spell-checker'
+include ':history-map'

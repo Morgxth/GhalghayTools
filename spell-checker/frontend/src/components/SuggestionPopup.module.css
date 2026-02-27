@@ -1,0 +1,146 @@
+.popup {
+  position: fixed;
+  z-index: 100;
+  background: #13162a;
+  border: 1px solid #2d3148;
+  border-radius: 12px;
+  box-shadow:
+    0 0 0 1px rgba(99,102,241,0.1),
+    0 12px 40px rgba(0,0,0,0.6),
+    0 4px 12px rgba(0,0,0,0.4);
+  min-width: 190px;
+  max-width: 320px;
+  overflow: hidden;
+  transform-origin: top left;
+}
+
+/* Bottom sheet on mobile */
+@media (max-width: 640px) {
+  .popup {
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    top: auto !important;
+    max-width: 100%;
+    width: 100%;
+    border-radius: 18px 18px 0 0;
+    border-bottom: none;
+    box-shadow: 0 -6px 40px rgba(0,0,0,0.7);
+    padding-bottom: env(safe-area-inset-bottom);
+    transform-origin: bottom center;
+  }
+
+  .item {
+    padding: 0.75rem 1.2rem;
+  }
+}
+
+.header {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid #1e2235;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  background: rgba(99,102,241,0.04);
+}
+
+.word {
+  font-weight: 600;
+  color: #f87171;
+  font-size: 0.95rem;
+}
+
+.label {
+  font-size: 0.7rem;
+  color: #475569;
+  letter-spacing: 0.02em;
+}
+
+.list {
+  list-style: none;
+  padding: 0.3rem 0;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  padding: 0.45rem 1rem;
+  background: none;
+  border: none;
+  color: #e2e8f0;
+  cursor: pointer;
+  transition: background 0.12s;
+  font-family: 'Outfit', system-ui, sans-serif;
+}
+
+.item:hover {
+  background: rgba(99,102,241,0.1);
+}
+
+.item:hover .suggWord {
+  color: #a5b4fc;
+}
+
+.suggWord {
+  font-size: 0.95rem;
+  color: #e2e8f0;
+  transition: color 0.12s;
+  font-weight: 500;
+}
+
+.translation {
+  font-size: 0.72rem;
+  color: #475569;
+  margin-top: 0.05rem;
+  line-height: 1.3;
+}
+
+.empty {
+  padding: 0.65rem 1rem;
+  font-size: 0.85rem;
+  color: #475569;
+}
+
+/* Warning popup */
+.headerWarn {
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid rgba(234,179,8,0.2);
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  background: rgba(234,179,8,0.06);
+}
+
+.wordWarn {
+  font-weight: 600;
+  color: #eab308;
+  font-size: 0.9rem;
+}
+
+.warnBody {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.65rem 1rem;
+}
+
+.bigramWord {
+  font-size: 1rem;
+  color: #fde68a;
+  font-weight: 600;
+}
+
+.bigramArrow {
+  color: #475569;
+  font-size: 0.85rem;
+}
+
+.warnHint {
+  padding: 0 1rem 0.7rem;
+  font-size: 0.72rem;
+  color: #64748b;
+  line-height: 1.45;
+}

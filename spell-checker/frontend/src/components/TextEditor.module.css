@@ -1,0 +1,79 @@
+.wrapper { margin-bottom: 1rem; }
+
+.container {
+  position: relative;
+  min-height: 220px;
+  border: 1px solid #1e2235;
+  border-radius: 14px;
+  overflow: hidden;
+  background: #12151f;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.container:focus-within {
+  border-color: #6366f1;
+  box-shadow:
+    0 0 0 3px rgba(99,102,241,0.12),
+    0 4px 24px rgba(0,0,0,0.4);
+}
+
+/* Общие стили для обоих слоёв */
+.highlight,
+.textarea {
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.8;
+  padding: 1rem 1.25rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  width: 100%;
+  min-height: 220px;
+}
+
+/* Слой с подсветкой — под textarea */
+.highlight {
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  pointer-events: auto;
+}
+
+/* Ошибка — красное подчёркивание */
+.highlight :global(mark.error) {
+  background: rgba(239, 68, 68, 0.18);
+  border-bottom: 2px solid rgba(239, 68, 68, 0.8);
+  border-radius: 3px;
+  color: transparent;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.highlight :global(mark.error:hover) {
+  background: rgba(239, 68, 68, 0.28);
+}
+
+/* Предупреждение — жёлтое пунктирное */
+.highlight :global(mark.warning) {
+  background: rgba(234, 179, 8, 0.15);
+  border-bottom: 2px dashed rgba(234, 179, 8, 0.7);
+  border-radius: 3px;
+  color: transparent;
+}
+
+/* Textarea сверху — прозрачный */
+.textarea {
+  position: relative;
+  background: transparent;
+  border: none;
+  outline: none;
+  resize: vertical;
+  color: #e2e8f0;
+  caret-color: #6366f1;
+  z-index: 1;
+}
+
+.textarea::placeholder { color: transparent; }
+
+@media (max-width: 640px) {
+  .highlight,
+  .textarea { font-size: 16px; }
+}

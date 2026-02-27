@@ -1,0 +1,41 @@
+.panel {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.stat {
+  background: #12151f;
+  border: 1px solid #1e2235;
+  border-radius: 12px;
+  padding: 0.8rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.stat:hover {
+  border-color: #2d3148;
+  box-shadow: 0 0 0 1px rgba(99,102,241,0.08), 0 4px 16px rgba(0,0,0,0.3);
+}
+
+.label {
+  font-size: 0.7rem;
+  color: #475569;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 500;
+}
+
+.value {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #a5b4fc;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.01em;
+}
+
+.ok    { color: #4ade80; }
+.error { color: #f87171; }

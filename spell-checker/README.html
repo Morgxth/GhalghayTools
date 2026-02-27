@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ГIалгIай мотт — Проверка орфографии</title>
+  <style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #24292f;
+  background: #ffffff;
+  padding: 3rem 1rem;
+}
+
+.container {
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4 {
+  line-height: 1.3;
+  font-weight: 600;
+  margin-top: 1.8rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: 0.3rem;
+}
+h1 { font-size: 2rem; border-bottom-width: 2px; }
+h2 { font-size: 1.5rem; }
+h3 { font-size: 1.2rem; border-bottom: none; }
+
+p { margin: 0.7rem 0; }
+
+a { color: #0969da; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+code {
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 4px;
+  padding: 0.15em 0.4em;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88em;
+}
+
+pre {
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  padding: 1.1rem 1.3rem;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 0.9em;
+  line-height: 1.55;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.95rem;
+}
+th, td {
+  border: 1px solid #d0d7de;
+  padding: 0.5rem 0.85rem;
+  text-align: left;
+}
+th {
+  background: #f6f8fa;
+  font-weight: 600;
+}
+tr:nth-child(even) { background: #f6f8fa; }
+
+ul, ol {
+  padding-left: 1.8rem;
+  margin: 0.6rem 0;
+}
+li { margin: 0.25rem 0; }
+
+li input[type=checkbox] {
+  margin-right: 0.4rem;
+}
+
+blockquote {
+  border-left: 4px solid #d0d7de;
+  padding: 0.4rem 1rem;
+  color: #57606a;
+  margin: 0.8rem 0;
+}
+
+hr {
+  border: none;
+  border-top: 2px solid #eaecef;
+  margin: 2rem 0;
+}
+</style>
+</head>
+<body>
+  <div class="container">
+    <h1>ГIалгIай мотт — Проверка орфографии ингушского языка</h1>
+<p>Веб-приложение для проверки правописания текстов на ингушском языке. Совмещает словарную проверку с контекстным анализом на основе N-грамм.</p>
+<h2>Технологии</h2>
+<table>
+<thead>
+<tr>
+<th>Слой</th>
+<th>Стек</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Backend</td>
+<td>Spring Boot 4.0.3, Java 25</td>
+</tr>
+<tr>
+<td>Frontend</td>
+<td>React 19, Vite 7</td>
+</tr>
+<tr>
+<td>NLP</td>
+<td>Расстояние Левенштейна, биграммная языковая модель</td>
+</tr>
+<tr>
+<td>Данные</td>
+<td>PDF-словари (Куркиев, Барахоева, Кодзоев, Мерешков, Оздоева, Тариева), корпус «Лоаман Іуйре»</td>
+</tr>
+</tbody>
+</table>
+<h2>Как работает проверка</h2>
+<p><strong>Орфография:</strong><br />
+1. Текст нормализуется — все варианты ингушской «палочки» (ӏ, Ӏ, цифра 1, латинская I) приводятся к единому символу<br />
+2. Каждое слово ищется в словаре<br />
+3. Для слов не из словаря подбираются варианты с расстоянием Левенштейна ≤ 2<br />
+4. Каждый вариант дополняется переводом из <code>ingush_translations.json</code></p>
+<p><strong>Контекст:</strong><br />
+1. Биграммная модель оценивает вероятность пар соседних слов<br />
+2. Статистически невозможные сочетания помечаются жёлтым предупреждением</p>
+<p><strong>UI:</strong><br />
+- Ошибки подсвечиваются красным, контекстные предупреждения — жёлтым<br />
+- Клик на слово открывает попап с вариантами и их переводами на русский<br />
+- Выбор варианта заменяет ошибочное слово в тексте по позиции (корректно с кириллицей)<br />
+- Вкладка «Словарь» — поиск по 112 000+ словам с пагинацией<br />
+- Дебаунс 800 мс — проверка запускается после паузы в наборе</p>
+<hr />
+<h2>Что сделано</h2>
+<ul>
+<li><input type="checkbox" checked disabled> Словарная проверка с расстоянием Левенштейна</li>
+<li><input type="checkbox" checked disabled> Нормализация ингушской «палочки» (ӏ)</li>
+<li><input type="checkbox" checked disabled> Контекстная проверка на основе N-граммной модели</li>
+<li><input type="checkbox" checked disabled> Интерактивный редактор с подсветкой ошибок в реальном времени</li>
+<li><input type="checkbox" checked disabled> Попап с вариантами исправления по клику</li>
+<li><input type="checkbox" checked disabled> Переводы вариантов в попапе</li>
+<li><input type="checkbox" checked disabled> Панель статистики (размер словаря, число биграмм)</li>
+<li><input type="checkbox" checked disabled> Python-скрипты для извлечения данных из 6 PDF-словарей (text + OCR)</li>
+<li><input type="checkbox" checked disabled> Очистка переводов: rule-based (граммем., заимствования, восстановление производных)</li>
+<li><input type="checkbox" checked disabled> Ранжирование подсказок по частоте в корпусе (unigram из N-грамм модели)</li>
+<li><input type="checkbox" checked disabled> Замена слова по клику на вариант в попапе (позиционная замена, работает с кириллицей)</li>
+<li><input type="checkbox" checked disabled> Вкладка «Словарь» с поиском, фильтром «только с переводом» и пагинацией</li>
+<li><input type="checkbox" checked disabled> Карточка слова — перевод, частота в корпусе, однокоренные слова</li>
+<li><input type="checkbox" checked disabled> Краудсорсинг с модерацией — форма «Предложить перевод» (очередь в <code>suggestions.jsonl</code>)</li>
+<li><input type="checkbox" checked disabled> Стеммер <code>IngushStemmer</code> — распознаёт флектированные формы, сокращает ложные ошибки</li>
+<li><input type="checkbox" checked disabled> REST API (<code>POST /api/spell-check</code>, <code>GET /api/spell-check/status</code>, <code>GET /api/spell-check/dictionary</code>, <code>GET /api/spell-check/dictionary/{word}</code>, <code>POST /api/spell-check/suggestions</code>)</li>
+</ul>
+<hr />
+<h2>Морфология ингушского языка</h2>
+<h3>Источники</h3>
+<table>
+<thead>
+<tr>
+<th>Источник</th>
+<th>Тип</th>
+<th>Что даёт</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Johanna Nichols, «Ingush Grammar» (2011, UC Press, 829 с.)</td>
+<td>Академическая грамматика (EN)</td>
+<td>Полное описание системы падежей, словообразования, спряжения</td>
+</tr>
+<tr>
+<td>«Словообразование и словоизменение в нахских языках» (1986)</td>
+<td>Сборник статей</td>
+<td>Деривационные суффиксы, именное и глагольное словоизменение</td>
+</tr>
+<tr>
+<td>«Вопросы лексики и словообразования вайнахских языков» (1987)</td>
+<td>Сборник статей</td>
+<td>Лексикология, продуктивные словообразовательные модели</td>
+</tr>
+<tr>
+<td>«Вопросы вайнахского синтаксиса» (1982)</td>
+<td>Сборник статей</td>
+<td>Синтаксис, управление, именные группы</td>
+</tr>
+<tr>
+<td>Куркиев А.С., «Основные вопросы лексикологии» (1979)</td>
+<td>Монография</td>
+<td>Пласты лексики, заимствования, словообразование</td>
+</tr>
+</tbody>
+</table>
+<h3>Система падежей (8 падежей, по Nichols 2011)</h3>
+<table>
+<thead>
+<tr>
+<th>Падеж</th>
+<th>Суффикс(ы)</th>
+<th>Функция</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Именительный</td>
+<td>—</td>
+<td>подлежащее интранзитивного глагола, пациенс</td>
+</tr>
+<tr>
+<td>Родительный</td>
+<td>-а, -ан, -н</td>
+<td>атрибутивный генитив</td>
+</tr>
+<tr>
+<td>Дательный</td>
+<td>-аа, -ана, -нна</td>
+<td>реципиент, бенефициант</td>
+</tr>
+<tr>
+<td>Эргативный</td>
+<td>-уо, -аз</td>
+<td>агенс транзитивного глагола</td>
+</tr>
+<tr>
+<td>Аллатив</td>
+<td>-ага, -га, -нга</td>
+<td>направление движения</td>
+</tr>
+<tr>
+<td>Инструментальный</td>
+<td>-аца, -ца, -нца</td>
+<td>инструмент, способ</td>
+</tr>
+<tr>
+<td>Латив</td>
+<td>-агI</td>
+<td>направление (вариант аллатива)</td>
+</tr>
+<tr>
+<td>Сравнительный</td>
+<td>-ал, -нал, -л</td>
+<td>стандарт сравнения</td>
+</tr>
+</tbody>
+</table>
+<p>Множественное число: <strong>-аш</strong> (продуктивный), <strong>-ий</strong> (одушевлённые), <strong>-ой</strong> (с суффиксом -хьуо), <strong>-рч</strong> (животные).</p>
+<h3>Словообразование существительных (ключевые суффиксы)</h3>
+<table>
+<thead>
+<tr>
+<th>Суффикс</th>
+<th>Значение</th>
+<th>Примеры</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-ам</td>
+<td>девербальный, результат</td>
+<td>боахам (имущество), бустам (мера), лотхIам (жалоба)</td>
+</tr>
+<tr>
+<td>-ар</td>
+<td>девербальный, процесс/действие</td>
+<td>да'ар (еда), хьехар (учение)</td>
+</tr>
+<tr>
+<td>-хьуо</td>
+<td>агентивный («тот, кто делает»)</td>
+<td>лоалахьуо (сосед), дешархьуо (ученик)</td>
+</tr>
+<tr>
+<td>-джг</td>
+<td>диминутив/уменьшительное</td>
+<td>жIалиг (щенок), бераг (ребёночек)</td>
+</tr>
+</tbody>
+</table>
+<h3>Ключевая сложность — аблаут</h3>
+<p>В косвенных падежах <strong>корневой гласный меняется</strong> непредсказуемо:<br />
+- <code>бер</code> (ребёнок) → <code>биера</code> (ген.), <code>биерага</code> (алл.)<br />
+- <code>куор</code> (окно) → <code>куора</code> (ген.)<br />
+- <code>бордз</code> (волк) → <code>берза</code> (ген.)<br />
+- <code>мах</code> (цена) → <code>меаха</code> (ген.)</p>
+<p>Аблаут не выводится правилами — нужен отдельный словарь основ.</p>
+<h3>Что реализовано</h3>
+<ul>
+<li><input type="checkbox" checked disabled> <strong>Нормализация палочки</strong> — все варианты ӏ (U+04CF, U+04C0, цифра 1, латинская I) приводятся к единому символу</li>
+<li><input type="checkbox" checked disabled> <strong>Стеммер <code>IngushStemmer</code></strong> — 32 суффикса, упорядоченных по длине (longest match first):</li>
+<li>Падежи мн.ч.: <code>-ашта</code>, <code>-ашка</code>, <code>-аьшта</code>, <code>-аьшка</code>, <code>-аьшца</code></li>
+<li>Мн.ч. именительный: <code>-аш</code>, <code>-аьш</code>, <code>-ий</code>, <code>-ой</code></li>
+<li>Падежи ед.ч.: <code>-ага</code>, <code>-аца</code>, <code>-гӏа</code>, <code>-хьа</code>, <code>-ара</code>, <code>-ача</code>, <code>-нна</code>, <code>-ана</code>, <code>-нах</code></li>
+<li>Краткие: <code>-га</code>, <code>-ца</code>, <code>-ал</code>, <code>-ах</code>, <code>-на</code>, <code>-хь</code>, <code>-ан</code>, <code>-аа</code>, <code>-л</code>, <code>-й</code></li>
+<li>Покрытие: ~70% регулярных флектированных форм (без аблаута)</li>
+</ul>
+<h3>Что можно сделать дальше</h3>
+<p><strong>Аблаутные чередования</strong> (высокий приоритет)<br />
+- Извлечь пары основа→косвенная форма из словаря Куркиева (там приводятся основы)<br />
+- Например: <code>бер</code>→<code>биера</code>, <code>куор</code>→<code>куора</code>, <code>бордз</code>→<code>берза</code><br />
+- Хранить как отдельный JSON-файл <code>ingush_ablaut.json</code><br />
+- Покроет дополнительно ~15-20% флектированных форм</p>
+<p><strong>Глагольная морфология</strong><br />
+- Ингушский глагол имеет классовые префиксы (б-, й-, в-, д-) согласующиеся с абсолютивом<br />
+- Временны́е/видовые суффиксы: простое прошедшее, перфект, прогрессив, конверб, масдар<br />
+- Источник: Nichols гл. 12–13; потребует отдельного глагольного стеммера</p>
+<p><strong>Полный морфологический анализатор</strong><br />
+- Разбор слова на морфемы с указанием части речи, падежа, числа<br />
+- Позволит не просто проверять орфографию, но и грамматику (согласование)<br />
+- Трудоёмко, но реально при наличии полного парадигматического словаря</p>
+<p><strong>Словарь основ из Куркиева</strong><br />
+- В словаре Куркиева после каждого слова указаны косвенная основа и грамматический класс<br />
+- Можно извлечь скриптом и создать <code>ingush_stems.json</code>: <code>{"бер": "биера", "куор": "куора", ...}</code></p>
+<hr />
+<h2>Планы развития</h2>
+<h3>Качество подсказок</h3>
+<ul>
+<li><input type="checkbox" disabled> Аблаутный словарь — покрыть флектированные формы с чередованием гласной корня</li>
+<li><input type="checkbox" disabled> Глагольный стеммер — классовые префиксы (б/й/в/д) + временны́е суффиксы</li>
+<li><input type="checkbox" disabled> Фонетическое сходство при подборе вариантов (учёт ингушских звуковых паттернов)</li>
+<li><input type="checkbox" disabled> Контекстное ранжирование — учитывать соседние слова при выборе варианта</li>
+<li><input type="checkbox" disabled> Подсветка контекстных предупреждений прямо в тексте (сейчас только список внизу)</li>
+</ul>
+<h3>Языковая база</h3>
+<ul>
+<li><input type="checkbox" disabled> Расширение корпуса — больше текстов для N-граммной модели</li>
+<li><input type="checkbox" disabled> Словарь основ из Куркиева — автоматическое извлечение пар (слово, косвенная основа)</li>
+<li><input type="checkbox" disabled> Разметка по частям речи для топ-5000 слов</li>
+</ul>
+<h3>Платформы</h3>
+<ul>
+<li><input type="checkbox" disabled> Браузерное расширение — проверка текста на любом сайте</li>
+<li><input type="checkbox" disabled> Telegram-бот — отправил текст, получил исправленный</li>
+<li><input type="checkbox" disabled> Публичный API для встраивания в сторонние приложения</li>
+</ul>
+<h3>Образование</h3>
+<ul>
+<li><input type="checkbox" disabled> Тренажёр правописания — упражнения и карточки для изучающих язык</li>
+<li><input type="checkbox" disabled> Примеры из корпуса в карточке слова</li>
+</ul>
+<h3>Краудсорсинг</h3>
+<ul>
+<li><input type="checkbox" disabled> Интерфейс модерации предложений из <code>suggestions.jsonl</code></li>
+<li><input type="checkbox" disabled> Совместное пополнение словаря носителями языка</li>
+</ul>
+  </div>
+</body>
+</html>

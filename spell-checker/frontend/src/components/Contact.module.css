@@ -1,0 +1,86 @@
+.root {
+  margin-top: 1.5rem;
+}
+
+.lead {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.65;
+  margin-bottom: 1.75rem;
+  max-width: 620px;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 640px) {
+  .cards { grid-template-columns: 1fr; }
+  .lead { font-size: 0.9rem; }
+}
+
+.card {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  background: #0f172a;
+  border: 1px solid #1e293b;
+  border-radius: 12px;
+  padding: 1.25rem 1.35rem;
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s;
+  cursor: pointer;
+}
+
+a.card:hover {
+  border-color: #334155;
+  background: #111827;
+}
+
+.cardIcon {
+  font-size: 1.2rem;
+  color: #6366f1;
+  margin-top: 0.05rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.cardTitle {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  margin-bottom: 0.35rem;
+}
+
+.cardText {
+  font-size: 0.84rem;
+  color: #64748b;
+  line-height: 1.6;
+  margin-bottom: 0.45rem;
+}
+
+.cardLink {
+  font-size: 0.8rem;
+  color: #6366f1;
+  font-weight: 500;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  font-size: 0.82rem;
+  color: #475569;
+  line-height: 1.6;
+  padding-top: 1.5rem;
+  border-top: 1px solid #1e293b;
+}
+
+.noteIcon {
+  color: #334155;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}

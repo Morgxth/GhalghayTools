@@ -1,0 +1,110 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.75rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #a5b4fc 0%, #818cf8 50%, #c4b5fd 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: #475569;
+  font-size: 0.88rem;
+  margin-top: 0.2rem;
+  letter-spacing: 0.01em;
+}
+
+/* ── Loading dots ── */
+.loadingWrap {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding-top: 0.5rem;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #6366f1;
+  box-shadow: 0 0 6px rgba(99,102,241,0.7);
+}
+
+/* ── Summary ── */
+.summary {
+  margin-top: 0.75rem;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  flex-wrap: wrap;
+}
+
+.ok   { color: #4ade80; }
+.err  { color: #f87171; }
+.warn { color: #eab308; }
+
+/* ── Tabs ── */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #1e2235;
+  padding-bottom: 0;
+
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg, #0c0e18);
+  padding-top: 0.5rem;
+  margin-top: -0.5rem;
+
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+.tab {
+  position: relative;
+  padding: 0.5rem 1.2rem 0.65rem;
+  background: none;
+  border: none;
+  color: #64748b;
+  font-family: 'Outfit', system-ui, sans-serif;
+  font-size: 0.88rem;
+  font-weight: 400;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: color 0.2s;
+  outline: none;
+}
+
+.tab:hover { color: #a5b4fc; }
+
+.tabActive {
+  color: #a5b4fc;
+  font-weight: 500;
+}
+
+/* Sliding indicator — рендерится framer-motion layoutId */
+.tabIndicator {
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #6366f1, #818cf8);
+  border-radius: 1px 1px 0 0;
+  box-shadow: 0 0 10px rgba(99,102,241,0.55);
+}
