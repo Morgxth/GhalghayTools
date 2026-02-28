@@ -34,6 +34,14 @@ CATALOG_FILE = CORPUS_DIR / "catalog.jsonl"
 DATASET_DIR  = CORPUS_DIR / "dataset"
 STATE_FILE   = CORPUS_DIR / "extract_state.jsonl"
 
+SPELL_DIR    = CORPUS_DIR.parent / "spell-checker"
+DICT_SOURCES = [
+    # инг→рус, 30k записей (doshlorg.html)
+    SPELL_DIR / "materials" / "ghalghay_translations.json",
+    # инг→рус, 21k записей (spell-checker)
+    SPELL_DIR / "src" / "main" / "resources" / "dictionary" / "ingush_translations.json",
+]
+
 # Минимальная длина сегмента (символов)
 MIN_SEGMENT_CHARS = 30
 # Максимальная длина сегмента (токенов ~= символов/4)
@@ -134,37 +142,54 @@ def split_into_segments(text: str, max_chars: int = MAX_SEGMENT_CHARS) -> list[s
 
 
 # ---------------------------------------------------------------------------
-# Детектор словарных статей (для словарей)
+# Загрузка словарных пар из JSON-файлов
 # ---------------------------------------------------------------------------
 
-# Паттерн словарной статьи: слово на русском + перевод на ингушский
-# Пример: "АБРИКОС -а, м. Айва. — Гӏаьнаж."
-DICT_ENTRY = re.compile(
-    r'^([А-ЯЁ\-]+(?:\s+[А-ЯЁа-яё\-]+){0,4})[,\s.]+(?:м\.|ж\.|с\.|нескл\.|мн\.|[а-яё]+\.)?\s*'
-    r'([\u0400-\u04FF\u04C0\u04CF][\u0400-\u04FF\u04C0\u04CF\s,.\-\u201c\u201d«»]{5,})',
-    re.MULTILINE
-)
+def load_dict_pairs(stats_only: bool = False) -> list[dict]:
+    """
+    Загружает инг->рус пары из готовых JSON-словарей.
+    Формат файлов: {"ингушское_слово": "русский_перевод", ...}
+    Дедуплицирует по ингушскому ключу (первый источник приоритетен).
+    """
+    seen: dict[str, str] = {}  # ing -> rus
+    source_counts: dict[str, int] = {}
 
-def extract_dict_pairs(text: str, source: str) -> list[dict]:
-    """
-    Из текста словаря вытаскивает параллельные пары рус→инг.
-    """
+    for dict_path in DICT_SOURCES:
+        if not dict_path.exists():
+            logging.warning(f"  Словарь не найден: {dict_path}")
+            continue
+        try:
+            data = json.loads(dict_path.read_text(encoding="utf-8"))
+        except Exception as e:
+            logging.warning(f"  Ошибка чтения {dict_path.name}: {e}")
+            continue
+
+        source_name = dict_path.stem
+        added = 0
+        for ing_word, rus_trans in data.items():
+            ing_word = ing_word.strip()
+            rus_trans = rus_trans.strip() if isinstance(rus_trans, str) else str(rus_trans).strip()
+            if not ing_word or not rus_trans:
+                continue
+            if ing_word not in seen:
+                seen[ing_word] = rus_trans
+                added += 1
+
+        source_counts[source_name] = added
+        logging.info(f"  {source_name[:50]:<50} {added:>6} пар")
+
+    logging.info(f"  Итого уникальных пар: {len(seen)}")
+
+    if stats_only:
+        return []
+
     pairs = []
-    for m in DICT_ENTRY.finditer(text):
-        rus_word = m.group(1).strip()
-        ing_trans = m.group(2).strip()
-
-        # Фильтруем мусор
-        if len(rus_word) < 2 or len(ing_trans) < 3:
-            continue
-        if ingush_score(ing_trans) < 0.1:
-            continue
-
+    for ing_word, rus_trans in seen.items():
         pairs.append({
-            "rus": rus_word,
-            "ing": ing_trans,
-            "source": source,
-            "type": "dict_entry",
+            "ing": ing_word,
+            "rus": rus_trans,
+            "source": "dictionary",
+            "type": "word_pair",
         })
     return pairs
 
@@ -234,31 +259,27 @@ def build_parallel_dataset(
     stats_only: bool = False,
 ) -> list[dict]:
     """
-    Ищет параллельные пары двумя способами:
-    1. Словарные статьи (dict_entry) — из файлов категории slovari
-    2. Смежные абзацы ing+rus (bilingual_para) — из двуязычных текстов
+    Собирает параллельные пары двумя способами:
+    1. JSON-словари (word_pair) — из DICT_SOURCES (~31k чистых пар инг->рус)
+    2. Смежные абзацы ing+rus (bilingual_para) — из двуязычных текстов корпуса
     """
     pairs = []
 
+    # Метод 1: готовые JSON-словари
+    logging.info("  [Dict] Загрузка JSON-словарей:")
+    dict_pairs = load_dict_pairs(stats_only)
+    pairs.extend(dict_pairs)
+
+    # Метод 2: смежные абзацы рус+инг в двуязычных текстах
+    logging.info("  [Corpus] Поиск bilingual параграфов в текстах:")
     for txt_path, meta in text_files:
-        slug     = txt_path.stem
-        category = meta.get("category_slug", "unknown")
+        slug = txt_path.stem
 
         try:
             text = txt_path.read_text(encoding="utf-8")
         except Exception:
             continue
 
-        # Метод 1: словарные статьи
-        if category == "slovari":
-            dict_pairs = extract_dict_pairs(text, slug)
-            if dict_pairs:
-                logging.info(f"  DICT {slug[:45]:<45} {len(dict_pairs):>5} пар")
-                if not stats_only:
-                    pairs.extend(dict_pairs)
-            continue
-
-        # Метод 2: смежные абзацы рус+инг в двуязычных текстах
         paragraphs = [p.strip() for p in re.split(r'\n{2,}', text) if len(p.strip()) > MIN_SEGMENT_CHARS]
         i = 0
         bilingual_count = 0
@@ -268,12 +289,10 @@ def build_parallel_dataset(
             l1 = classify_segment(p1)
             l2 = classify_segment(p2)
 
-            # Ищем пару (инг + рус) или (рус + инг) рядом
             if (l1 == "ing" and l2 == "rus") or (l1 == "rus" and l2 == "ing"):
                 ing = p1 if l1 == "ing" else p2
                 rus = p1 if l1 == "rus" else p2
 
-                # Базовая проверка соответствия (примерно равная длина)
                 ratio = len(ing) / max(len(rus), 1)
                 if 0.4 < ratio < 2.5:
                     if not stats_only:
@@ -289,7 +308,7 @@ def build_parallel_dataset(
             i += 1
 
         if bilingual_count > 0:
-            logging.info(f"  BILIN {slug[:44]:<44} {bilingual_count:>4} пар")
+            logging.info(f"    BILIN {slug[:44]:<44} {bilingual_count:>4} пар")
 
     return pairs
 
@@ -367,7 +386,7 @@ def main():
         logging.info(f"  Сохранено: {mono_path} ({mono_path.stat().st_size // 1024} KB)")
 
     # --- Параллельный датасет ---
-    logging.info(f"\n[2/2] ПАРАЛЛЕЛЬНЫЙ датасет (инг ↔ рус)")
+    logging.info(f"\n[2/2] ПАРАЛЛЕЛЬНЫЙ датасет (инг <-> рус)")
     logging.info("-" * 55)
     para_records = build_parallel_dataset(text_files, args.stats_only)
 
