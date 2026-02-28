@@ -47,3 +47,16 @@ logs/
 **/materials/tmp_*.png
 **/materials/_debug*
 **/materials/_page_dump*
+
+# Corpus — сырые файлы и извлечённый текст (авторские права)
+corpus/raw/
+corpus/text/
+corpus/dataset/
+# Логи и рабочие state-файлы
+corpus/*.log
+corpus/download_state.jsonl
+corpus/extract_state.jsonl
+# Консоль-дамп
+консоль.txt
+# Claude internal
+.claude/
