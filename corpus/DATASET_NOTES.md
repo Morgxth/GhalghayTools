@@ -27,7 +27,8 @@
 | prishvin-zhurka-1940 | 19 | sentence | OCR PSM6 + LaBSE alignment |
 | turgenev-mumu-1939 | 17 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | marshak-* | 4 | poem | Manual 1-poem-1-pair entries |
-| **TOTAL** | **14105** | | |
+| doshlorg | 438 | phrase | ghalghay.github.io dictionary example sentences |
+| **TOTAL** | **14543** | | |
 
 **Ingush chars:** ~2.1M (est.)
 **Russian chars:** ~3.8M (est.)
