@@ -18,7 +18,7 @@
 | bianki-morskoy-put-1939 | 319 | sentence | OCR PSM6 + LaBSE; Russian from moreskazok.ru |
 | nekrasov-moroz-1940 | 194 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | bible-esther | 167 | verse | EPUB, verse-ID aligned |
-| nartskij-epos-ingushej-2017 | 148 | story | TXT, section-number aligned |
+| nartskij-epos-ingushej-2017 | 5280 | sentence | TXT, section-aligned → LaBSE sentence split (148 sections → 5280 pairs) |
 | kipling-rikki-tikki-1939 | 91 | sentence | OCR + Gale-Church alignment |
 | bible-ruth | 85 | verse | EPUB, verse-ID aligned |
 | garshin-signal-1962 | 71 | sentence | TXT + Gale-Church alignment |
@@ -27,7 +27,7 @@
 | prishvin-zhurka-1940 | 19 | sentence | OCR PSM6 + LaBSE alignment |
 | turgenev-mumu-1939 | 17 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | marshak-* | 4 | poem | Manual 1-poem-1-pair entries |
-| **TOTAL** | **8973** | | |
+| **TOTAL** | **14105** | | |
 
 **Ingush chars:** ~2.1M (est.)
 **Russian chars:** ~3.8M (est.)
@@ -54,8 +54,9 @@
 
 ### Nart Epic: `nartskij-epos-ingushej-2017.txt`
 - Bilingual book, Ingush and Russian halves in same file
-- Aligned by section number (1..N in each half)
-- Script: `corpus/scraper/align_nart_epic.py`
+- Phase 1: section-number alignment → 148 section pairs (align_nart_epic.py)
+- Phase 2: local LaBSE sentence splitting within each section pair → 5280 sentence pairs
+- Script: `corpus/scraper/align_nart_epic.py`, `corpus/scraper/align_nart_sentences.py`
 
 ### Pushkin 2014: bilingual PDF
 - 22 poems extracted by character positions from PDF
