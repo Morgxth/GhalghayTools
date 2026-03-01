@@ -1,0 +1,72 @@
+{
+  "_comment": "Маппинг: ингушский slug → русский оригинал. type=external — качаем, type=internal — оба файла уже в корпусе.",
+
+  "shekspir-u-ardagiyar-kiadyar-perevod-yandieva-m-a-2009": {
+    "rus_title": "Укрощение строптивой",
+    "rus_author": "Уильям Шекспир",
+    "type": "external",
+    "source": "libru",
+    "url": "http://lib.ru/SHAKESPEARE/ukr1.txt",
+    "encoding": "koi8-r",
+    "align_method": "scene",
+    "notes": "Комедия. Перевод Яндиевой М.А. 2009. Русский — перевод Кузмина."
+  },
+
+  "dyuma-a-kavkaz-1988": {
+    "rus_title": "Кавказ",
+    "rus_author": "Александр Дюма",
+    "type": "local",
+    "local_file": "raw/Aleksandr Dyuma_Kavkaz.djvu",
+    "extract_method": "djvutxt",
+    "align_method": "paragraph",
+    "notes": "DJVU, издание Тбилиси 1988, перевод с французского. Текстовый слой есть."
+  },
+
+  "garshin-v-m-signal-na-ingushskom-yazyke-1962-g": {
+    "rus_title": "Сигнал",
+    "rus_author": "Всеволод Гаршин",
+    "type": "skip",
+    "notes": "МИСЛЕЙБЛ: PDF содержит поэтический сборник к юбилею Нац. библиотеки РИ, не Гаршина."
+  },
+
+  "tolstoj-l-n-hadzhi-murad-buru-serdalo-1931": {
+    "rus_title": "Хаджи-Мурат",
+    "rus_author": "Лев Толстой",
+    "type": "skip",
+    "notes": "PDF на dzurdzuki.com неверно подписан — содержит книгу стихов Гагиева «Догӏа халхадувл», не Хаджи-Мурата."
+  },
+
+  "dzhonatan-svift-gulliver-lilliputashkah-1939": {
+    "rus_title": "Путешествия Гулливера",
+    "rus_author": "Джонатан Свифт",
+    "type": "local",
+    "local_file": "raw/81309.pdf",
+    "extract_method": "fitz",
+    "text_start_page": 9,
+    "align_method": "paragraph",
+    "notes": "PDF 472 стр, текст с 10-й стр. Ingush-текст может быть битым — проверить."
+  },
+
+  "kipling-r-falgash-skazki-per-na-ing-a-ahrieva-1935-g": {
+    "rus_title": "Просто сказки (Just So Stories)",
+    "rus_author": "Редьярд Киплинг",
+    "type": "skip",
+    "notes": "МИСЛЕЙБЛ: PDF содержит стихи Акбиевой «Наьна мотт», не Киплинга."
+  },
+
+  "marshak-s-stihash-falgash-stihi-skazki-na-ingushskom-yazyke-1961": {
+    "rus_title": "Детские стихи и сказки (сборник)",
+    "rus_author": "Самуил Маршак",
+    "type": "skip",
+    "notes": "МИСЛЕЙБЛ: PDF содержит рассказы и пьесы Горчханова «Шолжа йисте», не Маршака."
+  },
+
+  "bokov-a-h-beke-kongash-1991": {
+    "rus_title": "Сыновья Беки",
+    "rus_author": "Ахмет Боков",
+    "type": "internal",
+    "rus_slug": "bokov-a-h-synovya-beki-perevod-r-kafrielyants-1977",
+    "align_method": "paragraph",
+    "notes": "Оба файла уже в корпусе. Ингушский оригинал + перевод Кафрелянц на русский."
+  }
+}

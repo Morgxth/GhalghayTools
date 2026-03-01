@@ -352,6 +352,12 @@ def main():
                 if d["status"].startswith("ok"):
                     ok_slugs.add(d["slug"])
 
+    # Веб-источники (wikipedia, serdalo) не проходят через extract_state —
+    # добавляем их напрямую из каталога
+    for slug, meta in catalog.items():
+        if meta.get("source") in ("wikipedia", "serdalo"):
+            ok_slugs.add(slug)
+
     # Собираем список (path, meta) в порядке приоритета
     text_files: list[tuple[Path, dict]] = []
     for slug in ok_slugs:
