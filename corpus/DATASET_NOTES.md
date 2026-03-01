@@ -9,8 +9,14 @@
 |--------|-------|------|-------|
 | bible-genesis | 1527 | verse | EPUB, verse-ID aligned |
 | bible-luke | 1128 | verse | PDF OCR (Tesseract/rus), 97.9% coverage |
+| lermontov-geroj-1940 | 1084 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
+| shakespeare-taming-2009 | 1030 | play | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | bible-proverbs | 915 | verse | EPUB, verse-ID aligned |
 | bible-john | 877 | verse | EPUB, verse-ID aligned |
+| gaidar-dalnie-strany-1940 | 828 | sentence | OCR PSM6 + LaBSE; Russian from traumlibrary.ru (windows-1251) |
+| gyugo-gavrosh-1939 | 399 | sentence | OCR PSM6 + LaBSE; Russian from nukadeti.ru |
+| bianki-morskoy-put-1939 | 319 | sentence | OCR PSM6 + LaBSE; Russian from moreskazok.ru |
+| nekrasov-moroz-1940 | 194 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | bible-esther | 167 | verse | EPUB, verse-ID aligned |
 | nartskij-epos-ingushej-2017 | 148 | story | TXT, section-number aligned |
 | kipling-rikki-tikki-1939 | 91 | sentence | OCR + Gale-Church alignment |
@@ -18,11 +24,13 @@
 | garshin-signal-1962 | 71 | sentence | TXT + Gale-Church alignment |
 | bible-jonah | 48 | verse | EPUB, verse-ID aligned |
 | pushkin-2014 | 22 | poem | PDF char-position + lib.ru/WikiSource |
+| prishvin-zhurka-1940 | 19 | sentence | OCR PSM6 + LaBSE alignment |
+| turgenev-mumu-1939 | 17 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | marshak-* | 4 | poem | Manual 1-poem-1-pair entries |
-| **TOTAL** | **5083** | | |
+| **TOTAL** | **8973** | | |
 
-**Ingush chars:** ~1.24M
-**Russian chars:** ~2.21M
+**Ingush chars:** ~2.1M (est.)
+**Russian chars:** ~3.8M (est.)
 
 ## Sources
 
@@ -54,18 +62,19 @@
 - Russian originals from lib.ru p2.txt, p3.txt (koi8-r), WikiSource
 - Script: `corpus/scraper/align_pushkin_2014.py`
 
+### LaBSE pipeline (OCR scans): `align_labse.py`
+- Sources: Prishvin, Turgenev, Nekrasov, Shakespeare, Lermontov, Gaidar, Bianki, Гюго
+- All Ingush PDFs are scans → Tesseract OCR (PSM 6, lang=rus)
+- Russian texts from lib.ru (koi8-r), traumlibrary.ru (windows-1251), or HTML sites (utf-8)
+- Ingush palochka (Ӏ) appears as: 1, [, ], |, ! — LaBSE handles the variation
+- DP alignment with ratio-aware band window (`expected_j = i * M/N ± window`)
+- Threshold: 0.3 cosine similarity minimum
+- Russian originals saved in `corpus/russian_originals/`
+
 ## Pending Sources
 
 | Book | Pages | Status | Notes |
 |------|-------|--------|-------|
-| Shakespeare "Укрощение строптивой" | 173pp | TEXT layer 168/173pp | Need scene-level aligner |
-| Turgenev "Муму" | 25pp | SCAN | Short — good OCR candidate |
-| Nekrasov "Мороз, Красный нос" | 45pp | SCAN | Narrative poem, 1940 |
-| Гюго "Гаврош" | 35pp | SCAN | Short excerpt |
-| Лермонтов "Герой нашего времени" | 202pp | SCAN | Full novel — complex |
-| Гайдар "Дальние страны" | 98pp | SCAN | Children's stories |
-| Бианки "На великом морском пути" | 53pp | SCAN | Children's stories |
-| Пришвин "Журка" | 20pp | SCAN | Short, OCR looks good |
 | Quran tafsir | 672pp | TEXT | Tafsir (commentary), needs Russian tafsir |
 | Pushkin 1941 fairy tales | ~20pp | OCR TXT | Overlaps with 2014 edition |
 
@@ -77,6 +86,8 @@ corpus/scraper/
   align_pushkin_2014.py  — Pushkin 2014 PDF poem extraction
   align_luke_ocr.py      — Luke PDF OCR + verse alignment
   align_prose.py         — Gale-Church prose alignment (Garshin, Kipling)
+  align_labse.py         — LaBSE (lingtrain/labse-ingush) OCR+alignment pipeline
+  process_all_sources.py — Batch processor (runs all pending sources)
   fetch_russian_originals.py — Download Russian texts
 ```
 
