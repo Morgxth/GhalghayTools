@@ -3,10 +3,12 @@
 **File:** `parallel_ing_rus.jsonl`
 **Format:** JSONL — each line is a JSON object with fields `ing`, `rus`, `source`, `type`
 
-## Current Stats (2026-03-01)
+## Current Stats (2026-03-02)
 
 | Source | Pairs | Type | Notes |
 |--------|-------|------|-------|
+| nartskij-epos-ingushej-2017 | 5280 | sentence | TXT, section-aligned → LaBSE sentence split (148 sections → 5280 pairs) |
+| wiki-inh-* | 5200 | sentence | inh.wikipedia.org ↔ ru.wikipedia.org, LaBSE alignment (401 articles, threshold 0.35) |
 | bible-genesis | 1527 | verse | EPUB, verse-ID aligned |
 | bible-luke | 1128 | verse | PDF OCR (Tesseract/rus), 97.9% coverage |
 | lermontov-geroj-1940 | 1084 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
@@ -14,11 +16,11 @@
 | bible-proverbs | 915 | verse | EPUB, verse-ID aligned |
 | bible-john | 877 | verse | EPUB, verse-ID aligned |
 | gaidar-dalnie-strany-1940 | 828 | sentence | OCR PSM6 + LaBSE; Russian from traumlibrary.ru (windows-1251) |
+| rus4all-* | ~2200 | sentence/poem | rus4all.ru/inh/ — original Ingush literature with Russian translation |
 | gyugo-gavrosh-1939 | 399 | sentence | OCR PSM6 + LaBSE; Russian from nukadeti.ru |
 | bianki-morskoy-put-1939 | 319 | sentence | OCR PSM6 + LaBSE; Russian from moreskazok.ru |
 | nekrasov-moroz-1940 | 194 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | bible-esther | 167 | verse | EPUB, verse-ID aligned |
-| nartskij-epos-ingushej-2017 | 5280 | sentence | TXT, section-aligned → LaBSE sentence split (148 sections → 5280 pairs) |
 | kipling-rikki-tikki-1939 | 91 | sentence | OCR + Gale-Church alignment |
 | bible-ruth | 85 | verse | EPUB, verse-ID aligned |
 | garshin-signal-1962 | 71 | sentence | TXT + Gale-Church alignment |
@@ -28,10 +30,10 @@
 | turgenev-mumu-1939 | 17 | sentence | OCR PSM6 + LaBSE; Russian from lib.ru (koi8-r) |
 | marshak-* | 4 | poem | Manual 1-poem-1-pair entries |
 | doshlorg | 438 | phrase | ghalghay.github.io dictionary example sentences |
-| **TOTAL** | **14543** | | |
+| **TOTAL** | **21,308** | | after dedup pass1 |
 
-**Ingush chars:** ~2.1M (est.)
-**Russian chars:** ~3.8M (est.)
+**Ingush chars:** ~3.1M (est.)
+**Russian chars:** ~5.5M (est.)
 
 ## Sources
 
