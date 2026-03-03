@@ -232,16 +232,24 @@ def main():
         pad_to_multiple_of=8 if args.fp16 else None,
     )
 
-    trainer = Seq2SeqTrainer(
+    # processing_class= появился в transformers 4.46, до этого — tokenizer=
+    import transformers as _tr
+    _tr_ver = tuple(int(x) for x in _tr.__version__.split(".")[:2])
+    _trainer_kwargs = dict(
         model=model,
         args=training_args,
         train_dataset=train_tok,
         eval_dataset=dev_tok,
-        processing_class=tokenizer,
         data_collator=data_collator,
         compute_metrics=make_compute_metrics(tokenizer),
         callbacks=[EarlyStoppingCallback(early_stopping_patience=2)],
     )
+    if _tr_ver >= (4, 46):
+        _trainer_kwargs["processing_class"] = tokenizer
+    else:
+        _trainer_kwargs["tokenizer"] = tokenizer
+
+    trainer = Seq2SeqTrainer(**_trainer_kwargs)
 
     print("\n=== Начало обучения ===")
     trainer.train()
