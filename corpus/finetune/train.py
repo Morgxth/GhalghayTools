@@ -164,6 +164,7 @@ def main():
     parser.add_argument("--out",     default="./nllb-ingush")
     parser.add_argument("--fp16",    action="store_true", default=torch.cuda.is_available())
     parser.add_argument("--no-grad-ckpt", action="store_true", help="Disable gradient checkpointing")
+    parser.add_argument("--resume", action="store_true", help="Resume from last checkpoint in --out dir")
     args = parser.parse_args()
 
     print(f"GPU: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'нет'}")
@@ -253,7 +254,7 @@ def main():
     trainer = Seq2SeqTrainer(**_trainer_kwargs)
 
     print("\n=== Начало обучения ===")
-    trainer.train()
+    trainer.train(resume_from_checkpoint=True if args.resume else None)
 
     print(f"\n=== Сохранение модели в {args.out} ===")
     trainer.save_model(args.out)
