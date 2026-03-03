@@ -163,6 +163,7 @@ def main():
     parser.add_argument("--max-len", type=int,   default=128)
     parser.add_argument("--out",     default="./nllb-ingush")
     parser.add_argument("--fp16",    action="store_true", default=torch.cuda.is_available())
+    parser.add_argument("--no-grad-ckpt", action="store_true", help="Disable gradient checkpointing")
     args = parser.parse_args()
 
     print(f"GPU: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'нет'}")
@@ -207,7 +208,7 @@ def main():
         weight_decay=0.01,
 
         fp16=args.fp16,
-        gradient_checkpointing=True,
+        gradient_checkpointing=not args.no_grad_ckpt,
         optim="adafactor",
         predict_with_generate=True,
         generation_max_length=args.max_len,
