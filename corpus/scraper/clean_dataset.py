@@ -57,7 +57,7 @@ def load_dataset():
     with open(DATASET_PATH, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line:
+            if line and not line.startswith("#"):
                 rows.append(json.loads(line))
     return rows
 

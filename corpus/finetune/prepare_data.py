@@ -31,12 +31,13 @@ def load_pairs():
     with open(DATASET_PATH, encoding="utf-8") as f:
         for line in f:
             line = line.strip()
-            if line:
-                row = json.loads(line)
-                ing = row["ing"].strip()
-                rus = row["rus"].strip()
-                if ing and rus:
-                    pairs.append((ing, rus))
+            if not line or line.startswith("#"):
+                continue
+            row = json.loads(line)
+            ing = row["ing"].strip()
+            rus = row["rus"].strip()
+            if ing and rus:
+                pairs.append((ing, rus))
     return pairs
 
 
