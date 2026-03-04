@@ -5,6 +5,7 @@ import StatsPanel from './components/StatsPanel'
 import TextEditor from './components/TextEditor'
 import ContextWarnings from './components/ContextWarnings'
 import Dictionary from './components/Dictionary'
+import Translate from './components/Translate'
 import About from './components/About'
 import Education from './components/Education'
 import Contact from './components/Contact'
@@ -16,6 +17,7 @@ const DEBOUNCE_MS = 800
 const TABS = [
   { id: 'checker',    label: 'Проверка'    },
   { id: 'dictionary', label: 'Словарь'     },
+  { id: 'translate',  label: 'Переводчик'  },
   { id: 'about',      label: 'О проекте'   },
   { id: 'education',  label: 'Образование' },
   { id: 'contact',    label: 'Контакты'    },
@@ -155,6 +157,7 @@ export default function App() {
           )}
 
           {tab === 'dictionary' && <Dictionary />}
+          {tab === 'translate'  && <Translate />}
           {tab === 'about'      && <About />}
           {tab === 'education'  && <Education />}
           {tab === 'contact'    && <Contact />}

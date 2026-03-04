@@ -38,3 +38,16 @@ export async function submitSuggestion(word, translation, comment = '') {
   if (!res.ok) throw new Error('Ошибка API')
   return res.json()
 }
+
+export async function translateText(text, src_lang, tgt_lang) {
+  const res = await fetch('/translate/api/translate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, src_lang, tgt_lang }),
+  })
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}))
+    throw new Error(err.detail || `HTTP ${res.status}`)
+  }
+  return res.json()
+}
