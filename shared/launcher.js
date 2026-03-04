@@ -2,7 +2,7 @@
   const APPS = [
     { id: 'spell',      name: 'Орфограф',    icon: 'АА',  url: '/spell/',     status: 'live' },
     { id: 'map',        name: 'Карта',        icon: '🗺',   url: '/map/',       status: 'live' },
-    { id: 'translate',  name: 'Переводчик',   icon: '🔤',  url: '/translate/', status: 'soon' },
+    { id: 'translate',  name: 'Переводчик',   icon: '🔤',  url: '/translate/', status: 'live' },
     { id: 'dict',       name: 'Словарь',      icon: '📚',  url: '/dict/',      status: 'soon' },
   ];
 
