@@ -1,6 +1,6 @@
 // В dev: http://localhost:8080/api  (из .env)
 // В prod: /api  (из .env.production — тот же домен, что и бекенд)
-const BASE = import.meta.env.VITE_API_BASE ?? '/api';
+const BASE = import.meta.env.VITE_API_BASE ?? (import.meta.env.BASE_URL + 'api');
 
 async function get(path) {
   const res = await fetch(BASE + path);

@@ -1,5 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+
+const BASENAME = import.meta.env.BASE_URL.replace(/\/$/, '') || '/';
 import { AnimatePresence, motion } from 'framer-motion';
 import Nav from './components/Nav';
 import MapPage from './pages/MapPage';
@@ -62,7 +64,7 @@ function AnimatedRoutes() {
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={BASENAME}>
       <TgBackButton />
       <div className="app-layout">
         <Nav />

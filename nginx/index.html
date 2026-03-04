@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GhalghayTools — Инструменты ингушского языка и истории</title>
+  <meta name="description" content="Цифровой дом ингушской культуры — язык, история, род." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=Jost:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #0d0b09;
+      --surface: #161310;
+      --border:  rgba(255,255,255,0.08);
+      --text:    rgba(255,255,255,0.88);
+      --muted:   rgba(255,255,255,0.45);
+      --accent:  #c9a96e;
+    }
+
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: 'Jost', sans-serif;
+      min-height: 100vh; display: flex; flex-direction: column;
+    }
+
+    header {
+      padding: 20px 32px; display: flex; align-items: center; justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 600; letter-spacing: 0.02em; }
+    .logo span { color: var(--accent); }
+
+    main {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; padding: 60px 24px; gap: 48px;
+    }
+
+    .hero { text-align: center; max-width: 560px; }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif; font-size: clamp(36px, 6vw, 56px);
+      font-weight: 700; line-height: 1.15; margin-bottom: 16px;
+    }
+    .hero h1 em { color: var(--accent); font-style: normal; }
+    .hero p { color: var(--muted); font-size: 16px; line-height: 1.6; font-weight: 300; }
+
+    .apps {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px; width: 100%; max-width: 720px;
+    }
+
+    .app-card {
+      display: flex; flex-direction: column; align-items: center; gap: 12px;
+      padding: 28px 20px; border-radius: 16px;
+      background: var(--surface); border: 1px solid var(--border);
+      text-decoration: none; color: var(--text);
+      transition: border-color 0.2s, transform 0.15s;
+    }
+    .app-card:hover { border-color: rgba(201,169,110,0.4); transform: translateY(-2px); }
+    .app-card.soon  { opacity: 0.45; pointer-events: none; }
+
+    .app-card-icon {
+      width: 56px; height: 56px; border-radius: 14px;
+      background: rgba(255,255,255,0.05); border: 1px solid var(--border);
+      display: grid; place-items: center; font-size: 26px;
+    }
+    .app-card-icon.text { font-family: 'Jost', sans-serif; font-size: 16px; font-weight: 600; }
+
+    .app-card-name { font-size: 14px; font-weight: 500; }
+    .app-card-desc { font-size: 12px; color: var(--muted); text-align: center; line-height: 1.4; }
+    .badge {
+      font-size: 10px; padding: 2px 8px; border-radius: 99px;
+      background: rgba(255,255,255,0.06); color: var(--muted); letter-spacing: 0.05em;
+    }
+    .badge.live { background: rgba(100,200,120,0.12); color: rgba(100,200,120,0.8); }
+
+    footer {
+      padding: 20px 32px; border-top: 1px solid var(--border);
+      text-align: center; font-size: 12px; color: var(--muted);
+    }
+    footer a { color: var(--muted); text-decoration: none; }
+    footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">ГIалгIай<span>Tools</span></div>
+    <app-launcher></app-launcher>
+  </header>
+
+  <main>
+    <div class="hero">
+      <h1>Цифровой дом<br><em>ингушской культуры</em></h1>
+      <p>Язык, история, род — инструменты для изучения и сохранения наследия ингушского народа.</p>
+    </div>
+
+    <div class="apps">
+      <a class="app-card" href="/spell/">
+        <div class="app-card-icon text">АА</div>
+        <div class="app-card-name">Орфограф</div>
+        <div class="app-card-desc">Проверка ингушской орфографии</div>
+        <span class="badge live">доступно</span>
+      </a>
+      <a class="app-card" href="/map/">
+        <div class="app-card-icon">🗺</div>
+        <div class="app-card-name">Карта</div>
+        <div class="app-card-desc">История и топонимика</div>
+        <span class="badge live">доступно</span>
+      </a>
+      <div class="app-card soon">
+        <div class="app-card-icon">🔤</div>
+        <div class="app-card-name">Переводчик</div>
+        <div class="app-card-desc">ИИ-перевод инг ↔ рус</div>
+        <span class="badge">скоро</span>
+      </div>
+      <div class="app-card soon">
+        <div class="app-card-icon">📚</div>
+        <div class="app-card-name">Словарь</div>
+        <div class="app-card-desc">Полный ингушско-русский</div>
+        <span class="badge">скоро</span>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <a href="https://github.com/Morgxth/GhalghayTools" target="_blank">GitHub</a>
+    &nbsp;·&nbsp; MIT License
+  </footer>
+
+  <script src="/launcher.js"></script>
+</body>
+</html>
