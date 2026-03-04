@@ -2,7 +2,6 @@ import os
 import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from transformers import NllbTokenizer, AutoModelForSeq2SeqLM
 
@@ -66,7 +65,3 @@ def translate(req: TranslateRequest):
 @app.get("/translate/api/health")
 def health():
     return {"status": "ok", "model": MODEL_ID, "device": DEVICE}
-
-
-# Serve static frontend — must be mounted AFTER API routes
-app.mount("/translate", StaticFiles(directory="static", html=True), name="static")
