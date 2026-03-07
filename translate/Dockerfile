@@ -6,12 +6,6 @@ WORKDIR /app
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Скачиваем модель во время сборки образа (не при каждом старте)
-ARG MODEL_ID=Targimec/nllb-ingush
-RUN python -c "from transformers import NllbTokenizerFast, AutoModelForSeq2SeqLM; \
-    NllbTokenizerFast.from_pretrained('${MODEL_ID}'); \
-    AutoModelForSeq2SeqLM.from_pretrained('${MODEL_ID}')"
-
 COPY main.py .
 
 EXPOSE 8000
