@@ -6,7 +6,7 @@ from pydantic import BaseModel
 
 MODEL_ID = os.getenv("MODEL_ID", "Targimec/nllb-ingush")
 HF_TOKEN = os.getenv("HF_TOKEN", "")
-HF_API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
+HF_API_URL = f"https://router.huggingface.co/models/{MODEL_ID}"
 
 app = FastAPI(title="GhalghayTools — Переводчик", version="1.0.0")
 
