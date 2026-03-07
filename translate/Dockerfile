@@ -2,7 +2,10 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Зависимости
+# CPU-only torch (намного легче, без CUDA)
+RUN pip install --no-cache-dir torch==2.5.1+cpu --index-url https://download.pytorch.org/whl/cpu
+
+# Остальные зависимости
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
