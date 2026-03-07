@@ -40,7 +40,7 @@ export async function submitSuggestion(word, translation, comment = '') {
 }
 
 export async function translateText(text, src_lang, tgt_lang) {
-  const res = await fetch('/translate/api/translate', {
+  const res = await fetch('https://translate-production-d0cb.up.railway.app/translate/api/translate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ text, src_lang, tgt_lang }),
