@@ -30,7 +30,10 @@ const tabContent = {
 }
 
 export default function App() {
-  const [tab, setTab] = useState('checker')
+  const [tab, setTab] = useState(() => {
+    const hash = window.location.hash.slice(1)
+    return TABS.some(t => t.id === hash) ? hash : 'checker'
+  })
 
   const [corrections, setCorrections]         = useState([])
   const [contextWarnings, setContextWarnings] = useState([])

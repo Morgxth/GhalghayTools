@@ -2,7 +2,7 @@
   const APPS = [
     { id: 'spell',      name: 'Орфограф',    icon: 'АА',  url: 'https://spell-checker-production.up.railway.app/spell/',  status: 'live' },
     { id: 'map',        name: 'Карта',        icon: '🗺',   url: '/map/',                                                      status: 'soon' },
-    { id: 'translate',  name: 'Переводчик',   icon: '🔤',  url: 'https://translate-production-d0cb.up.railway.app/translate/', status: 'live' },
+    { id: 'translate',  name: 'Переводчик',   icon: '🔤',  url: 'https://spell-checker-production.up.railway.app/spell/#translate', status: 'live' },
     { id: 'dict',       name: 'Словарь',      icon: '📚',  url: '/dict/',                                                      status: 'soon' },
   ];
 
