@@ -1,5 +1,7 @@
 import os
 import torch
+import asyncio
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -8,7 +10,29 @@ from transformers import NllbTokenizerFast, AutoModelForSeq2SeqLM
 MODEL_ID = os.getenv("MODEL_ID", "Targimec/nllb-ingush")
 DEVICE   = "cuda" if torch.cuda.is_available() else "cpu"
 
-app = FastAPI(title="GhalghayTools — Переводчик", version="1.0.0")
+tokenizer = None
+model     = None
+model_ready = False
+
+
+def _load_model():
+    global tokenizer, model, model_ready
+    print(f"Загрузка модели {MODEL_ID} на {DEVICE}...")
+    tokenizer = NllbTokenizerFast.from_pretrained(MODEL_ID)
+    model     = AutoModelForSeq2SeqLM.from_pretrained(MODEL_ID).to(DEVICE)
+    model.eval()
+    model_ready = True
+    print("Модель готова.")
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    loop = asyncio.get_event_loop()
+    loop.run_in_executor(None, _load_model)
+    yield
+
+
+app = FastAPI(title="GhalghayTools — Переводчик", version="1.0.0", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
@@ -16,13 +40,6 @@ app.add_middleware(
     allow_methods=["POST", "GET"],
     allow_headers=["*"],
 )
-
-# Загружаем модель один раз при старте
-print(f"Загрузка модели {MODEL_ID} на {DEVICE}...")
-tokenizer = NllbTokenizerFast.from_pretrained(MODEL_ID)
-model     = AutoModelForSeq2SeqLM.from_pretrained(MODEL_ID).to(DEVICE)
-model.eval()
-print("Модель готова.")
 
 
 class TranslateRequest(BaseModel):
@@ -40,6 +57,8 @@ class TranslateResponse(BaseModel):
 
 @app.post("/translate/api/translate", response_model=TranslateResponse)
 def translate(req: TranslateRequest):
+    if not model_ready:
+        raise HTTPException(status_code=503, detail="Модель загружается, попробуйте через минуту")
     if not req.text.strip():
         raise HTTPException(status_code=400, detail="Пустой текст")
     if len(req.text) > 2000:
@@ -64,4 +83,4 @@ def translate(req: TranslateRequest):
 
 @app.get("/translate/api/health")
 def health():
-    return {"status": "ok", "model": MODEL_ID, "device": DEVICE}
+    return {"status": "ok" if model_ready else "loading", "model": MODEL_ID, "device": DEVICE}
