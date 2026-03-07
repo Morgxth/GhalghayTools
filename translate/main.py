@@ -1,38 +1,14 @@
 import os
-import torch
-import asyncio
-from contextlib import asynccontextmanager
+import httpx
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import NllbTokenizerFast, AutoModelForSeq2SeqLM
 
 MODEL_ID = os.getenv("MODEL_ID", "Targimec/nllb-ingush")
-DEVICE   = "cuda" if torch.cuda.is_available() else "cpu"
+HF_TOKEN = os.getenv("HF_TOKEN", "")
+HF_API_URL = f"https://api-inference.huggingface.co/models/{MODEL_ID}"
 
-tokenizer = None
-model     = None
-model_ready = False
-
-
-def _load_model():
-    global tokenizer, model, model_ready
-    print(f"Загрузка модели {MODEL_ID} на {DEVICE}...")
-    tokenizer = NllbTokenizerFast.from_pretrained(MODEL_ID)
-    model     = AutoModelForSeq2SeqLM.from_pretrained(MODEL_ID).to(DEVICE)
-    model.eval()
-    model_ready = True
-    print("Модель готова.")
-
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    loop = asyncio.get_event_loop()
-    loop.run_in_executor(None, _load_model)
-    yield
-
-
-app = FastAPI(title="GhalghayTools — Переводчик", version="1.0.0", lifespan=lifespan)
+app = FastAPI(title="GhalghayTools — Переводчик", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
@@ -56,9 +32,7 @@ class TranslateResponse(BaseModel):
 
 
 @app.post("/translate/api/translate", response_model=TranslateResponse)
-def translate(req: TranslateRequest):
-    if not model_ready:
-        raise HTTPException(status_code=503, detail="Модель загружается, попробуйте через минуту")
+async def translate(req: TranslateRequest):
     if not req.text.strip():
         raise HTTPException(status_code=400, detail="Пустой текст")
     if len(req.text) > 2000:
@@ -70,17 +44,33 @@ def translate(req: TranslateRequest):
     if req.src_lang == req.tgt_lang:
         raise HTTPException(status_code=400, detail="src_lang и tgt_lang должны различаться")
 
-    tokenizer.src_lang = req.src_lang
-    inputs = tokenizer(req.text, return_tensors="pt", truncation=True, max_length=256).to(DEVICE)
-    tgt_id = tokenizer.convert_tokens_to_ids(req.tgt_lang)
+    headers = {"Authorization": f"Bearer {HF_TOKEN}"} if HF_TOKEN else {}
+    payload = {
+        "inputs": req.text,
+        "parameters": {
+            "src_lang": req.src_lang,
+            "tgt_lang": req.tgt_lang,
+            "max_new_tokens": req.max_new_tokens,
+        }
+    }
 
-    with torch.no_grad():
-        out = model.generate(**inputs, forced_bos_token_id=tgt_id, max_new_tokens=req.max_new_tokens)
+    async with httpx.AsyncClient(timeout=60.0) as client:
+        resp = await client.post(HF_API_URL, json=payload, headers=headers)
 
-    translation = tokenizer.decode(out[0], skip_special_tokens=True)
+    if resp.status_code == 503:
+        raise HTTPException(status_code=503, detail="Модель загружается на HuggingFace, попробуйте через 20 секунд")
+    if resp.status_code != 200:
+        raise HTTPException(status_code=502, detail=f"HF API error {resp.status_code}: {resp.text[:200]}")
+
+    result = resp.json()
+    if isinstance(result, list) and result:
+        translation = result[0].get("translation_text", "")
+    else:
+        raise HTTPException(status_code=502, detail="Неожиданный ответ от HF API")
+
     return TranslateResponse(translation=translation, src_lang=req.src_lang, tgt_lang=req.tgt_lang)
 
 
 @app.get("/translate/api/health")
 def health():
-    return {"status": "ok" if model_ready else "loading", "model": MODEL_ID, "device": DEVICE}
+    return {"status": "ok", "model": MODEL_ID, "backend": "huggingface-inference-api"}
