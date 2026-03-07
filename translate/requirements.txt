@@ -6,3 +6,4 @@ sentencepiece==0.2.0
 safetensors==0.4.5
 huggingface_hub==0.26.2
 pydantic==2.9.2
+protobuf==5.29.3
