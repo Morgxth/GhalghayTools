@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.ingush'
 version = '0.1.0'
-лаudesourceCompatibility = '21'
+java.sourceCompatibility = '21'
 
 configurations {
     compileOnly {
