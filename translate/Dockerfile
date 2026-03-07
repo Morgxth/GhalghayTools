@@ -8,8 +8,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 # Скачиваем модель во время сборки образа (не при каждом старте)
 ARG MODEL_ID=Targimec/nllb-ingush
-RUN python -c "from transformers import NllbTokenizer, AutoModelForSeq2SeqLM; \
-    NllbTokenizer.from_pretrained('${MODEL_ID}'); \
+RUN python -c "from transformers import AutoTokenizer, AutoModelForSeq2SeqLM; \
+    AutoTokenizer.from_pretrained('${MODEL_ID}'); \
     AutoModelForSeq2SeqLM.from_pretrained('${MODEL_ID}')"
 
 COPY main.py .

@@ -3,7 +3,7 @@ import torch
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from transformers import NllbTokenizer, AutoModelForSeq2SeqLM
+from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
 
 MODEL_ID = os.getenv("MODEL_ID", "Targimec/nllb-ingush")
 DEVICE   = "cuda" if torch.cuda.is_available() else "cpu"
@@ -19,7 +19,7 @@ app.add_middleware(
 
 # Загружаем модель один раз при старте
 print(f"Загрузка модели {MODEL_ID} на {DEVICE}...")
-tokenizer = NllbTokenizer.from_pretrained(MODEL_ID)
+tokenizer = AutoTokenizer.from_pretrained(MODEL_ID)
 model     = AutoModelForSeq2SeqLM.from_pretrained(MODEL_ID).to(DEVICE)
 model.eval()
 print("Модель готова.")
