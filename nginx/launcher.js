@@ -1,7 +1,7 @@
 (() => {
   const APPS = [
     { id: 'spell',      name: 'Орфограф',    icon: 'АА',  url: 'https://spell-checker-production.up.railway.app/spell/',  status: 'live' },
-    { id: 'map',        name: 'Карта',        icon: '🗺',   url: '/map/',                                                      status: 'soon' },
+    { id: 'map',        name: 'Карта',        icon: '🗺',   url: 'https://history-map-production-d095.up.railway.app/map/', status: 'live' },
     { id: 'translate',  name: 'Переводчик',   icon: '🔤',  url: 'https://spell-checker-production.up.railway.app/spell/#translate', status: 'live' },
     { id: 'dict',       name: 'Словарь',      icon: '📚',  url: '/dict/',                                                      status: 'soon' },
   ];
